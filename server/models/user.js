@@ -9,21 +9,24 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    username:{
-      type : String,
-      required: true
+    username: {
+        type: String,
+        required: true
     },
-    ppImage:{
-      type: String,
+    password: {
+        type: String,
+        required: true
+    },
+    ppImage: {
+        type: String,
     },
     role: {
-      type: String,
-      default: "user"
+        type: String,
+        default: "user"
     },
     resetToken: {},
-    expireToken:{},
+    expireToken: {},
 
-}, {timestamps: true}
-);
+}, { timestamps: true });
 
-module.exports = mongoose.model("user" , userSchema)
+module.exports = mongoose.model("user", userSchema)
