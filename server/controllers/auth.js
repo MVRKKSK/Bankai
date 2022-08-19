@@ -27,7 +27,8 @@ exports.AuthUser = async(req, res) => {
             if (err) {
                 res.status(500).json("error in creating a token")
             }
-            res.status(200).json({ token })
+            res.status(200).json(token)
+            console.log("hello")
         })
     } catch (err) {
         console.log(err)
