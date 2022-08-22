@@ -5,6 +5,7 @@ dotenv.config()
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
 const db = require("./database/db.js")
+const cors = require("cors")
 db();
 // includes for all the routers
 const UserRouter = require("./routes/user.js")
@@ -13,6 +14,7 @@ const AuthRouter = require("./routes/auth.js")
 
 const PORT = 5000
 app.use(morgan("dev"))
+app.use(cors())
 app.use(bodyParser.urlencoded({
     extended: true
 }));

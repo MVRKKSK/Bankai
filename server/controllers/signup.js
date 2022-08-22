@@ -5,6 +5,14 @@ const Emailvalidator = require("email-validator");
 exports.createUser = async(req, res) => {
     try {
         const { username, email, name, password } = req.body
+
+        const checkUser = user.findOne({ "email": email })
+
+        if (checkUser) {
+            console.log(checkUser)
+            res.status(404).send("email already available")
+        }
+
         const validateEmail = Emailvalidator.validate(email)
         if (!validateEmail) return res.status(401).send("Invalid Email");
         const User = new user({
@@ -18,19 +26,19 @@ exports.createUser = async(req, res) => {
         User.save((err, data) => {
             if (err) {
                 console.log(err)
-                res.status(400).json({
+                res.status(400).send({
 
                     err
                 })
             }
-            res.status(200).json(data)
+            res.status(200).send(data)
         })
 
         const payload = { userId: User._id }
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" }, (err, token) => {
             if (err) {
-                res.status(500).json("error in creating a token")
+                res.status(500).send("error in creating a token")
             }
             res.status(200).json({ token })
         })

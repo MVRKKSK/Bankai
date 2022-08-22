@@ -4,7 +4,7 @@ const { createUser } = require("../controllers/signup.js")
 
 
 
-router.post("/", createUser)
+router.post("/signup", createUser)
 
 
 module.exports = router

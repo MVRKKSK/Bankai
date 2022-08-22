@@ -19,3 +19,9 @@ input {
     padding: 10px 5px 10px 10px;
     outline: none;
 }
+
+.inp1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

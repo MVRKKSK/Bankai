@@ -5,15 +5,14 @@ const Emailvalidator = require("email-validator");
 
 exports.AuthUser = async(req, res) => {
     try {
-        const { email, password, username} = req.body
+        const { email, password, username } = req.body
         var loginId;
-        if(email){
-          const validateEmail = Emailvalidator.validate(email)
-          if (!validateEmail) return res.status(401).send("Invalid Email");
-          loginId = {email: email}
-        }
-        else if(username){
-          loginId = {username: username}
+        if (email) {
+            const validateEmail = Emailvalidator.validate(email)
+            if (!validateEmail) return res.status(401).send("Invalid Email");
+            loginId = { email: email }
+        } else if (username) {
+            loginId = { username: username }
         }
         const User = await user.findOne(loginId).select("+password")
         const verifiedPassword = await bcrypt.compare(password, User.password)
