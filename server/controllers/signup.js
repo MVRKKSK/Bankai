@@ -2,7 +2,11 @@ const user = require("../models/user.js")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const Emailvalidator = require("email-validator");
+
+
+
 exports.createUser = async(req, res) => {
+
     try {
         const { username, email, name, password } = req.body
 
@@ -34,14 +38,14 @@ exports.createUser = async(req, res) => {
             res.status(200).send(data)
         })
 
-        const payload = { userId: User._id }
+        /* const payload = { userId: User._id }
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" }, (err, token) => {
             if (err) {
                 res.status(500).send("error in creating a token")
             }
             res.status(200).json({ token })
-        })
+        }) */
     } catch (err) {
         console.log(err)
     }

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 
-module.exports = (req, res, next) => {
+exports.middleware = (req, res, next) => {
     try {
         if (!req.headers.authorization) {
             res.status(401).send("unauthorized")
