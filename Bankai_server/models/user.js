@@ -5,6 +5,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
     email: {
         type: String,
         required: true,
@@ -26,6 +30,7 @@ const userSchema = mongoose.Schema({
         type: String,
         default: "user"
     },
+    Token: {},
     resetToken: {},
     expireToken: {},
 

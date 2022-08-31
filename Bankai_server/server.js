@@ -4,21 +4,23 @@ const cors = require("cors")
 const PORT = 8000
 const morgan = require("morgan")
 const { readdirSync, read } = require("fs")
+const bodyParser = require("body-parser")
 const dotenv = require('dotenv')
 dotenv.config()
 const db = require("./utils/db")
 db();
+// const signup = require("./routes/user")
 app.use(cors())
 app.use(morgan("dev"))
-readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)))
-
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)))
+    // app.use("/api" , signup)
 app.get("/", (req, res) => {
     res.send("Unleash The Bankai")
 })
-app.get("/home", (req, res) => {
-    res.send("yay ! you are now at home")
-})
-
 app.listen(PORT, (req, res) => {
     console.log("server is connected")
 })
