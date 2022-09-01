@@ -6,7 +6,6 @@ const Emailvalidator = require("email-validator");
 
 exports.getUserDetails = async(req, res) => {
     const userId = await req.userId
-    console.log(userId)
     try {
         const userData = await user.findById({ _id: userId })
         const followerData = await followers.findById({ _id: userId })
