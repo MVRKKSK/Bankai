@@ -1,97 +1,126 @@
-import React, { useState, useEffect } from 'react'
-import EmailValidator from "email-validator"
-import "./signup.css"
-import { API } from '../../config'
-import axios from "axios"
-
+import React,{useState} from "react";
+import image1 from "./image1.svg";
+import axios from "axios";
+import {useDispatch} from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Cookie from "js-cookie";
 const Signup = () => {
-    const intitialValues = { username: "", name: "", password: "", email: "" }
-    const [formValues, setFormValues] = useState(intitialValues)
-    const [formErrors , setFormErrors] = useState({})
-    const [isSubmit , setIsSubmit] = useState(false)
-    const [responseData , setResponseData] = useState(null)
-
-    const handleChange = (e) => {
-        const {name , value} = e.target
-        setFormValues({...formValues , [name] : value})
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+  const initialValues = {email:"",password:"",username:"",name:""};
+  const [signup , setSignup] = useState(initialValues);
+  const handleChange = (e) => {
+    const {name , value} = e.target;
+    setSignup({...signup ,[name]:value});
+  }
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
+      const data = await axios.post(`${process.env.REACT_APP_API_URL}/signup` , signup).then(res => res.data).catch(err => console.log(err));
+      const {message , ...rest} = data;
+      setTimeout(() => {
+        dispatch({type:"LOGIN" , payload:rest});
+        Cookie.set("user" , JSON.stringify(rest));
+        Navigate("/");
+      })
+    }catch(err){
+      console.log(err);
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setFormErrors(validate(formValues));
-        setIsSubmit(true);
-
-    }
-    useEffect(() => {
-        if (Object.keys(formErrors).length === 0 && isSubmit) {
-            axios.post("http://localhost:5000/api/signup" , formValues).then(response=> {
-                console.log(response)
-            }).catch(err =>{
-                console.log(err.response.data)
-            })
-        }
-
-      }, [formErrors]);
-
-    const validate = (values) => {
-        const errors = {}
-        if(values.email){
-           const valueEmail =  EmailValidator.validate(values.email);
-           if(!valueEmail){
-            errors.email = "Invalid Email Address"
-           }
-        }
-        if(!values.email){
-            errors.email = "Email is required"
-        }
-        if(!values.username){
-            errors.username = "Username is required"
-        }
-        if(!values.password){
-            errors.password = "Password is required"
-        }
-        if(!values.name){
-            errors.name = "Name is required"
-        }
-
-        return errors
-    }
-
+  }
     return (
-    <div>
-        <form onSubmit={handleSubmit} className='wrapper'>
-            <div className='inp'>
-                <div className='inp1'>
-                    <div className='i1-1'>
-                        <p>enter your Name</p>
-                        <input type="text" name="name" placeholder='enter your Name' value={formValues.name} onChange={handleChange}>
-                        </input>
-                    </div>
+        <section className="h-screen">
+  <div className="px-6 h-full text-white">
+    <div
+      className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
+    >
+      <div
+        className="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0"
+      >
+        <img
+          src={image1}
+          className="w-full"
+          alt="image1"
+        />
+      </div>
+      <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+      
+        <form onSubmit={handleSubmit}>
+          
+          <div
+            className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
+          >
+            <p className="text-center font-semibold mx-4 mb-0">Register here</p>
+          </div>
 
-                    <div className='i1-2 '>
-                        <p>enter your username</p>
-                        <input type="text" name="username" placeholder='enter your username' value={formValues.username} onChange={handleChange}>
-                        </input>
-                    </div>
-                </div>
-                <div className='inp1'>
-                    <div className='i1-3'>
-                        <p>enter your email</p>
-                        <input type="email" name="email" placeholder='enter your email' value={formValues.email} onChange={handleChange}>
-                        </input>
-                    </div>
-                    <div className='i1-4'>
-                        <p>enter your password</p>
-                        <input type="password" name="password" placeholder='password' value={formValues.password} onChange={handleChange}>
-                        </input>
-                    </div>
-                </div>
 
-            </div>
-            <button>submit</button>
+          <div className="mb-6">
+            <input
+              type="text"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput2"
+              placeholder="Name"
+              name="name"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-6">
+            <input
+              type="text"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput2"
+              placeholder="Username"
+              name="username"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-6">
+            <input
+              type="text"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput2"
+              placeholder="Email address"
+              name="email"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-6">
+            <input
+              type="password"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput2"
+              placeholder="Password"
+              name="password"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="text-center lg:text-left">
+            <button
+              type="submit"
+              className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+            >
+              
+              Signup
+            </button>
+            
+            <p className="text-sm font-semibold mt-2 pt-1 mb-0 text-center">
+              Already have an account?
+              <a
+                href="#!"
+                className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                >Login</a
+              >
+            </p>
+          </div>
         </form>
+      </div>
     </div>
-    )
+  </div>
+</section>
+    );
 }
 
-export default Signup
+export default Signup;
