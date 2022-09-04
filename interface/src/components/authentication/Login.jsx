@@ -19,14 +19,15 @@ const Login = () => {
   }
   
   const handleSubmit = async(e) => {
+    e.preventDefault();
     try{
-      e.preventDefault();
-      console.log(login)
       const data = await axios.post(`${process.env.REACT_APP_API_URL}/login` , login).then(res => res.data).catch(err => console.log(err));
-      const{message , ...rest} = data;
-      dispatch({type: Login , payload: rest});
-      Cookie.set("user" , JSON.stringify(rest));
-      navigate("/");
+      console.log(data)
+      setTimeout(() => {
+        dispatch({type:"LOGIN" , payload:data});
+        Cookie.set("user" , JSON.stringify(data));
+        navigate("/");
+      })
     }catch(err){
       console.log(err)
     }
