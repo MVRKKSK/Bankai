@@ -1,0 +1,30 @@
+.post-h5sfadf {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.post-up5548fs {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    background: linear-gradient(90deg, #FDBB2D 0%, #22C1C3 100%);
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.pro-in-im-4742 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 5px solid blueviolet;
+}
+
+.content-41s6df {
+    /* padding-left: 30px; */
+    color: white;
+    background-color: black;
+    padding: 15px;
+    border-radius: 20px;
+    margin-left: 20px;
+}

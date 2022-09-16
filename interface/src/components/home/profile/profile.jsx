@@ -4,7 +4,7 @@ import "./profile.css"
 
 const Profile = () => {
     return (<>
-        <div className="text-white">profile</div>
+
     </>
     )
 }
